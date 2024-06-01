@@ -45,7 +45,7 @@ variable "fifo_queue" {
   default = false
 }
 
-variable "has_deadleter_queue" {
+variable "has_deadletter_queue" {
   type    = bool
   default = false
 }
