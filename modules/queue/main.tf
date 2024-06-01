@@ -21,7 +21,7 @@ resource "aws_sqs_queue" "deadletter_queue" {
 
 resource "aws_sqs_queue_redrive_allow_policy" "queue_redrive_allow_policy" {
   count     = var.has_deadletter_queue ? 1 : 0
-  queue_url = aws_sqs_queue.deadletter_queue.url
+  queue_url = aws_sqs_queue.deadletter_queue[0].url
   redrive_allow_policy = jsonencode({
     redrivePermission = "byQueue",
     sourceQueueArns   = [aws_sqs_queue.queue.arn]
@@ -32,7 +32,7 @@ resource "aws_sqs_queue_redrive_policy" "name" {
   count     = var.has_deadletter_queue ? 1 : 0
   queue_url = aws_sqs_queue.queue.url
   redrive_policy = jsonencode({
-    deadLetterTargetArn = aws_sqs_queue.deadletter_queue.arn
+    deadLetterTargetArn = aws_sqs_queue.deadletter_queue[0].arn
     maxReceiveCount     = 3
   })
 }
